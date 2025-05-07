@@ -7,7 +7,7 @@ export namespace Product {
     aroma: string;
     quantity: number;
     image?: string;
-    weights: string[];
+    weightKg: string;
   }
 
   export interface ContextType {

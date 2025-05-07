@@ -5,7 +5,7 @@
 }
 
 .products-cards h1 {
-  margin-bottom: 20px
+  margin-bottom: 20px;
 }
 
 .products-cards__list {
@@ -13,9 +13,9 @@
 }
 
 .products-cards__list--item {
-  background-color: red;
+  background-color: #fff;
   padding: 20px 30px;
-border-radius: 10px;
+  border-radius: 10px;
   margin: 10px;
 }
 

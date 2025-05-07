@@ -7,3 +7,8 @@
 .no-scroll {
   overflow: hidden;
 }
+
+body {
+  margin: 0;
+  background: #ffe6b2 url("./assets//bgfootprints.png");
+}

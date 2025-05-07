@@ -1,0 +1,27 @@
+.label {
+  margin: 10px 0;
+}
+
+.select {
+  padding: 10px 5px;
+}
+
+.input {
+  padding: 10px 5px;
+}
+
+.checkbox-label {
+}
+
+.textarea {
+  min-width: 98.5%;
+  max-width: 98.5%;
+  min-height: 50px;
+}
+
+@media (max-width: 768px) {
+  .textarea {
+    min-width: 98%;
+    max-width: 98%;
+  }
+}

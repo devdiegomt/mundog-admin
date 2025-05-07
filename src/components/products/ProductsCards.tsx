@@ -22,11 +22,7 @@ export const ProductsCards = () => {
             <p>{product.price}</p>
             <p>{product.quantity}</p>
             <p>{product.aroma}</p>
-           {/*  <ul>
-              {product.weights.map((w, i) => (
-                <li key={i}>{w}</li>
-              ))}
-            </ul> */}
+           <p>{product.weightKg} kg</p>
             <img
               src={product.image}
               alt={product.title}

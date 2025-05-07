@@ -1,4 +1,5 @@
 import type { InputLabel } from "../../types/input";
+import classes from "./Input.module.css";
 
 export const Input: React.FC<InputLabel.Props> = ({
   label,
@@ -8,18 +9,52 @@ export const Input: React.FC<InputLabel.Props> = ({
   className = "",
   textarea = false,
   select = false,
+  checkbox = false,
   options,
+  checkboxOptions,
   ...props
 }) => {
   return (
     <>
-      <label htmlFor={name} className={labelClassName}>
-        {label}
-      </label>
-      {textarea ? (
-        <textarea id={name} name={name} className={className} {...props} />
+      {!checkbox && (
+        <label htmlFor={name} className={`${classes.label} ${labelClassName}`}>
+          {label}
+        </label>
+      )}
+      {checkbox ? (
+        <>
+          <legend className={`${classes.label} ${labelClassName}`}>Peso</legend>
+          {checkboxOptions!.map((option) => (
+            <div key={option.value}>
+              <input
+                type="checkbox"
+                id={option.value}
+                name={option.value}
+                value={option.value}
+                {...props}
+              />
+              <label
+                htmlFor={option.value}
+                className={classes["checkbox-label"]}
+              >
+                {option.label}
+              </label>
+            </div>
+          ))}
+        </>
+      ) : textarea ? (
+        <textarea
+          id={name}
+          name={name}
+          className={`${classes.textarea} ${className}`}
+          {...props}
+        />
       ) : select ? (
-        <select name={name} id={name}>
+        <select
+          name={name}
+          id={name}
+          className={`${classes.select} ${className}`}
+        >
           {options!.map((option) => (
             <option key={option.value}>{option.label}</option>
           ))}
@@ -29,7 +64,7 @@ export const Input: React.FC<InputLabel.Props> = ({
           id={name}
           name={name}
           type={type}
-          className={className}
+          className={`${classes.input} ${className}`}
           {...props}
         />
       )}

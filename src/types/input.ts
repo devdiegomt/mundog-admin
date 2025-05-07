@@ -8,6 +8,8 @@ namespace InputLabel {
     select?: boolean;
     placeholder?: string;
     textarea?: boolean;
+    checkbox?: boolean;
+    checkboxOptions?: { value: string; label: string }[];
     options?: { value: string; label: string }[];
   }
 }
