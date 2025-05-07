@@ -1,0 +1,27 @@
+.header {
+  background-color: red;
+  padding: 15px;
+}
+
+.header__navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 27px;
+}
+
+.header__navigation--logo {
+    height: 100%;
+}
+
+.header__navigation--list {
+  display: flex;
+  padding: 0;
+  list-style-type: none;
+  gap: 4px;
+}
+
+.header__navigation--list li a {
+  color: #000;
+  text-decoration: none;
+}
