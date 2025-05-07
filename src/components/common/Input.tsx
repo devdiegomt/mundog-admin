@@ -26,17 +26,14 @@ export const Input: React.FC<InputLabel.Props> = ({
           <legend className={`${classes.label} ${labelClassName}`}>Peso</legend>
           {checkboxOptions!.map((option) => (
             <div key={option.value}>
-              <input
-                type="checkbox"
-                id={option.value}
-                name={option.value}
-                value={option.value}
-                {...props}
-              />
-              <label
-                htmlFor={option.value}
-                className={classes["checkbox-label"]}
-              >
+              <label>
+                <input
+                  type="checkbox"
+                  id={name}
+                  name={name}
+                  value={option.label}
+                  {...props}
+                />
                 {option.label}
               </label>
             </div>

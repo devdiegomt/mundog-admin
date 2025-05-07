@@ -17,7 +17,7 @@
 }
 
 .modal__content {
- padding: 3rem;
+  padding: 3rem 3rem 2rem;
 }
 
 .modal__header {
@@ -34,6 +34,19 @@
 .modal__form {
   display: flex;
   flex-direction: column;
+}
+
+.modal__btn {
+  margin-top: 20px;
+  padding: 10px 0;
+  border: none;
+  background-color: #ffe6b2;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.modal__btn:hover {
+  background-color: #ffcc80;
 }
 
 @media (max-width: 600px) {

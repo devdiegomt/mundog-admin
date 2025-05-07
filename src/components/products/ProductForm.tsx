@@ -2,6 +2,7 @@ import { createPortal } from "react-dom";
 import { Input } from "../common/Input";
 import classes from "./ProductForm.module.css";
 import { useImperativeHandle, useRef, forwardRef } from "react";
+import { Form, useActionData } from "react-router-dom";
 
 const TITLE_OPTIONS = [
   { value: "1", label: "Arena 4.5kg" },
@@ -27,6 +28,8 @@ export interface ProductFormRef {
 }
 
 export const ProductForm = forwardRef<ProductFormRef>((_, ref) => {
+  const data = useActionData();
+
   const dialog = useRef<HTMLDialogElement>(null);
 
   const handleBackdropClick = (event: React.MouseEvent<HTMLDialogElement>) => {
@@ -77,7 +80,7 @@ export const ProductForm = forwardRef<ProductFormRef>((_, ref) => {
             <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z" />
           </svg>
         </div>
-        <form className={classes["modal__form"]}>
+        <Form method="post" className={classes["modal__form"]}>
           <Input
             label="Título del producto"
             name="title"
@@ -95,11 +98,15 @@ export const ProductForm = forwardRef<ProductFormRef>((_, ref) => {
           />
           <Input
             label="Available weights"
-            name="stock"
+            name="weights"
             checkbox
             checkboxOptions={CHECKBOX_OPTIONS}
           />
-        </form>
+          <button type="submit" className={classes["modal__btn"]}>
+            Guardar
+          </button>
+        </Form>
+        {data?.error && <p>{data.error}</p>}
       </div>
     </dialog>,
     document.getElementById("modal") as HTMLElement
