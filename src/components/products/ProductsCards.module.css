@@ -19,6 +19,13 @@
   margin: 10px;
 }
 
+.products-cards__list--header {
+  display: flex;
+  justify-content: space-between;
+  height: 24px;
+  cursor: pointer;
+}
+
 .products-cards__list--image {
   width: 250px;
 }
