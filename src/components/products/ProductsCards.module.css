@@ -26,6 +26,11 @@
   cursor: pointer;
 }
 
+.products-cards__list--header--actions {
+  display: flex;
+  gap: 5px;
+}
+
 .products-cards__list--image {
   width: 250px;
 }

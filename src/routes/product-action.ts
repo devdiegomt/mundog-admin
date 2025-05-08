@@ -1,35 +1,69 @@
 import type { ActionFunctionArgs } from "react-router-dom";
 
-export async function productAction({ request }: ActionFunctionArgs) {
+export const productFormAction = async ({
+  request,
+  params,
+}: ActionFunctionArgs) => {
   const formData = await request.formData();
+  const method = formData.get("_method");
 
   const product = {
-    _id: Math.random().toString(36).substring(7),
     title: formData.get("title"),
     description: formData.get("description"),
     aroma: formData.get("aroma"),
     price: Number(formData.get("price")),
-    quantity: Number(formData.get("stock")),
+    quantity: Number(formData.get("quantity")),
     image: formData.get("image"),
     weights: formData.getAll("weights"),
   };
 
-  try {
-    const response = await fetch("https://mundo-gatuno-backend.onrender.com/api/products", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(product),
-    });
+  const postProduct = {
+    _id: Math.floor(Math.random() * 100000).toString(),
+    ...product,
+  };
 
-    if (!response.ok) {
-      throw new Error("Error al crear el producto");
+  try {
+    let response;
+
+    if (method === "post") {
+      response = await fetch(
+        "https://mundo-gatuno-backend.onrender.com/api/products",
+        {
+          method: "POST",
+          body: JSON.stringify(postProduct),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
     }
 
-    return;
-    /* return redirect("/"); */
-  } catch (err) {
-    return { error: err instanceof Error ? err.message : "Unknown error" };
+    if (method === "put") {
+      response = await fetch(
+        `https://mundo-gatuno-backend.onrender.com/api/products/${params.id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(product),
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+    }
+
+    if (!response) {
+      throw new Error("No hay respuestas del servidor");
+    }
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Error al crear el producto");
+    }
+
+    return { data, success: true };
+  } catch (error) {
+    console.error(error);
+    return {
+      error:
+        (error instanceof Error ? error.message : "Error desconocido") ||
+        "Error al crear el producto",
+    };
   }
-}
+};

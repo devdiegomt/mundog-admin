@@ -7,12 +7,16 @@ export namespace Product {
     aroma: string;
     quantity: number;
     image?: string;
-    weightKg: string;
+    weights: string[];
   }
 
   export interface ContextType {
     products: Props[];
     loading: boolean;
     error: string | null;
+  }
+
+  export interface ProductState {
+    productToEdit?: Props;
   }
 }

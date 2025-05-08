@@ -9,6 +9,7 @@ namespace InputLabel {
     placeholder?: string;
     textarea?: boolean;
     checkbox?: boolean;
+    defaultValue?: string | number | readonly string[] | undefined;
     checkboxOptions?: { value: string; label: string }[];
     options?: { value: string; label: string }[];
   }
