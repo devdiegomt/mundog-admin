@@ -59,7 +59,6 @@ export const productFormAction = async ({
 
     return { data, success: true };
   } catch (error) {
-    console.error(error);
     return {
       error:
         (error instanceof Error ? error.message : "Error desconocido") ||

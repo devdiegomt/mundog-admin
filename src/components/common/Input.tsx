@@ -13,6 +13,7 @@ export const Input: React.FC<InputLabel.Props> = ({
   options,
   checkboxOptions,
   defaultValue = undefined,
+  required = false,
   /* defaultChecked = false, */
   ...props
 }) => {
@@ -35,6 +36,8 @@ export const Input: React.FC<InputLabel.Props> = ({
                   name={name}
                   value={option.label}
                   defaultValue={defaultValue}
+                  required={required}
+                  /* defaultChecked={defaultChecked} */
                   {...props}
                 />
                 {option.label}
@@ -48,6 +51,7 @@ export const Input: React.FC<InputLabel.Props> = ({
           name={name}
           className={`${classes.textarea} ${className}`}
           defaultValue={defaultValue}
+          required={required}
           {...props}
         />
       ) : select ? (
@@ -56,6 +60,7 @@ export const Input: React.FC<InputLabel.Props> = ({
           id={name}
           className={`${classes.select} ${className}`}
           defaultValue={defaultValue}
+          required={required}
         >
           {options!.map((option) => (
             <option key={option.value}>{option.label}</option>
@@ -68,6 +73,7 @@ export const Input: React.FC<InputLabel.Props> = ({
           type={type}
           className={`${classes.input} ${className}`}
           defaultValue={defaultValue}
+          required={required}
           {...props}
         />
       )}

@@ -1,20 +1,30 @@
 import { createPortal } from "react-dom";
 import { Input } from "../common/Input";
 import classes from "./ProductForm.module.css";
-import { useImperativeHandle, useRef, forwardRef, useEffect } from "react";
+import {
+  useImperativeHandle,
+  useRef,
+  forwardRef,
+  useEffect,
+  useState,
+} from "react";
 import { Form, useActionData } from "react-router-dom";
 import type { Product } from "../../types/product";
+import images from "../../data/images";
 
 const TITLE_OPTIONS = [
-  { value: "1", label: "Arena 4.5kg" },
-  { value: "2", label: "Arena 10kg" },
-  { value: "3", label: "Arena 25kg" },
+  { value: "1", label: "Arena Calabaza 4.5kg" },
+  { value: "2", label: "Arena Calabaza 10kg" },
+  { value: "3", label: "Arena Calabaza 25kg" },
 ];
 
 const AROMA_OPTIONS = [
-  { value: "1", label: "Aroma 1" },
-  { value: "2", label: "Aroma 2" },
-  { value: "3", label: "Aroma 3" },
+  { value: "1", label: "Vainilla" },
+  { value: "2", label: "Rosa" },
+  { value: "3", label: "Manzana" },
+  { value: "3", label: "Café" },
+  { value: "3", label: "Lavanda" },
+  { value: "3", label: "Talco de bebé" },
 ];
 
 const CHECKBOX_OPTIONS = [
@@ -28,8 +38,15 @@ export interface ProductFormRef {
   close: () => void;
 }
 
+interface ImageData {
+  src: string;
+  alt: string;
+}
+
 export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
   ({ productToEdit }, ref) => {
+    const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
+
     const isEditing = !!productToEdit;
     const data = useActionData();
     const dialog = useRef<HTMLDialogElement>(null);
@@ -68,6 +85,10 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
       }
     }, [data]);
 
+    const handleSelectImage = (image: ImageData): void => {
+      setSelectedImage(image);
+    };
+
     return createPortal(
       <dialog
         className={classes.modal}
@@ -102,12 +123,14 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
               select
               options={TITLE_OPTIONS}
               defaultValue={productToEdit?.title}
+              required
             />
             <Input
               label="Descripción"
               name="description"
               textarea
               defaultValue={productToEdit?.description}
+              required
             />
             <Input
               label="Aroma"
@@ -115,24 +138,41 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
               select
               options={AROMA_OPTIONS}
               defaultValue={productToEdit?.aroma}
+              required
             />
             <Input
               label="Precio"
               name="price"
               type="number"
               defaultValue={productToEdit?.price}
+              required
             />
             <Input
               label="Quantity"
               name="quantity"
               type="number"
               defaultValue={productToEdit?.quantity}
+              required
             />
-            <Input
-              label="Imagen"
+            <ul className={classes["new-product__images"]}>
+              {images.map((image) => (
+                <li
+                  key={image.src}
+                  onClick={() => handleSelectImage(image)}
+                  className={
+                    selectedImage === image ? classes.selected : undefined
+                  }
+                >
+                  <img {...image} />
+                </li>
+              ))}
+            </ul>
+            <input
+              type="hidden"
               name="image"
-              placeholder="Agrega el link de la imagen"
+              value={selectedImage?.src ?? ""}
               defaultValue={productToEdit?.image}
+              required
             />
             <Input
               label="Available weights"

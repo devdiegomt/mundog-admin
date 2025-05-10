@@ -40,7 +40,6 @@ export const ProductsCards = () => {
 
   if (loading) return <p>Cargando...</p>;
   if (error) return <p>{error}</p>;
-  console.log(products);
 
   return (
     <section className={classes["products-cards"]}>

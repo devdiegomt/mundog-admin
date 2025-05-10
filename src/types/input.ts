@@ -12,6 +12,7 @@ namespace InputLabel {
     defaultValue?: string | number | readonly string[] | undefined;
     checkboxOptions?: { value: string; label: string }[];
     options?: { value: string; label: string }[];
+    required?: boolean;
   }
 }
 
