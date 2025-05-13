@@ -14,10 +14,10 @@ const lavandaImg = "https://i.imgur.com/iYCJ6DI.png";
 const talcoBebeImg = "https://i.imgur.com/OvA7hV3.png";
 
 export default [
-  { src: vainillaImg, alt: "Arena con aroma a vainilla" },
-  { src: rosaImg, alt: "Arena con aroma a rosa" },
-  { src: manzanaImg, alt: "Arena con aroma a manzana" },
-  { src: cafeImg, alt: "Arena con aroma a cafe" },
-  { src: lavandaImg, alt: "Arena con aroma a lavanda" },
-  { src: talcoBebeImg, alt: "Arena con aroma a talco de bebe" },
+  { src: vainillaImg, alt: "Vainilla" },
+  { src: rosaImg, alt: "Rosa" },
+  { src: manzanaImg, alt: "Manzana" },
+  { src: cafeImg, alt: "Cafe" },
+  { src: lavandaImg, alt: "Lavanda" },
+  { src: talcoBebeImg, alt: "Talco" },
 ];

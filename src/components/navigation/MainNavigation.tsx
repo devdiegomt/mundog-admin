@@ -12,11 +12,11 @@ export const MainNavigation = () => {
           className={classes["header__navigation--logo"]}
         />
         <ul className={classes["header__navigation--list"]}>
-          <li>
+          {/* <li>
             <Link to="/">Home</Link>
-          </li>
+          </li> */}
           <li>
-            <Link to="/products">Products</Link>
+            <Link to="/">Products</Link>
           </li>
         </ul>
       </nav>

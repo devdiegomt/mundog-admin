@@ -5,7 +5,7 @@ import {
   useImperativeHandle,
   useRef,
   forwardRef,
-  useEffect,
+  /* useEffect, */
   useState,
 } from "react";
 import { Form, useActionData } from "react-router-dom";
@@ -13,20 +13,20 @@ import type { Product } from "../../types/product";
 import images from "../../data/images";
 
 const TITLE_OPTIONS = [
-  { value: "1", label: "Arena Calabaza 4.5kg" },
-  { value: "2", label: "Arena Calabaza 10kg" },
-  { value: "3", label: "Arena Calabaza 25kg" },
+  { value: "1", label: "Arena Calabaza" },
+  { value: "2", label: "Snack Calabaza" },
+  /* { value: "3", label: "Arena Calabaza" }, */
 ];
 
-const AROMA_OPTIONS = [
+/* const AROMA_OPTIONS = [
   { value: "1", label: "Vainilla" },
   { value: "2", label: "Rosa" },
   { value: "3", label: "Manzana" },
-  { value: "3", label: "Café" },
-  { value: "3", label: "Lavanda" },
-  { value: "3", label: "Talco de bebé" },
+  { value: "4", label: "Café" },
+  { value: "5", label: "Lavanda" },
+  { value: "6", label: "Talco de bebé" },
 ];
-
+ */
 const CHECKBOX_OPTIONS = [
   { value: "1", label: "4.5kg" },
   { value: "2", label: "10kg" },
@@ -78,12 +78,12 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
       },
     }));
 
-    useEffect(() => {
+    /* useEffect(() => {
       if (data?.success) {
         handleClose();
         location.reload();
       }
-    }, [data]);
+    }, [data]); */
 
     const handleSelectImage = (image: ImageData): void => {
       setSelectedImage(image);
@@ -114,7 +114,7 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
           </div>
           <Form
             method="post"
-            action={isEditing ? `/products/${productToEdit?._id}` : "/products"}
+            action={isEditing ? `/${productToEdit?._id}` : "/"}
             className={classes["modal__form"]}
           >
             <Input
@@ -132,14 +132,14 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
               defaultValue={productToEdit?.description}
               required
             />
-            <Input
+            {/*             <Input
               label="Aroma"
               name="aroma"
               select
               options={AROMA_OPTIONS}
               defaultValue={productToEdit?.aroma}
               required
-            />
+            /> */}
             <Input
               label="Precio"
               name="price"
@@ -154,6 +154,7 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
               defaultValue={productToEdit?.quantity}
               required
             />
+            <label>Aroma / Snack</label>
             <ul className={classes["new-product__images"]}>
               {images.map((image) => (
                 <li
@@ -164,9 +165,19 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
                   }
                 >
                   <img {...image} />
+                  <p className={classes["new-product__images--alt"]}>
+                    {image.alt}
+                  </p>
                 </li>
               ))}
             </ul>
+            <input
+              type="hidden"
+              name="aroma"
+              value={selectedImage?.alt ?? ""}
+              defaultValue={productToEdit?.aroma}
+              required
+            />
             <input
               type="hidden"
               name="image"
@@ -174,17 +185,17 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
               defaultValue={productToEdit?.image}
               required
             />
+            <input
+              type="hidden"
+              name="_method"
+              value={isEditing ? "put" : "post"}
+            />
             <Input
               label="Available weights"
               name="weights"
               checkbox
               checkboxOptions={CHECKBOX_OPTIONS}
               defaultValue={productToEdit?.weights}
-            />
-            <input
-              type="hidden"
-              name="_method"
-              value={isEditing ? "put" : "post"}
             />
             <button type="submit" className={classes["modal__btn"]}>
               Guardar

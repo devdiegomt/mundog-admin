@@ -10,8 +10,8 @@
   padding: 10px 5px;
 }
 
-.checkbox__label {
-  margin-left: 10px;
+input[type="checkbox"] {
+  margin-right: 10px;
 }
 
 .textarea {

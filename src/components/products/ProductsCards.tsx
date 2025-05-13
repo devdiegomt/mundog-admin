@@ -69,7 +69,11 @@ export const ProductsCards = () => {
             <p>{product.price}</p>
             <p>{product.quantity}</p>
             <p>{product.aroma}</p>
-            <p>{product.weights} kg</p>
+            <ul>
+              {product.weights.map((weight) => (
+                <li key={weight}>{weight}</li>
+              ))}
+            </ul>
             <img
               src={product.image}
               alt={product.title}
