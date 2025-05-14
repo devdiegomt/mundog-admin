@@ -1,23 +1,56 @@
-const vainillaImg =
-  "https://content.app-sources.com/s/03478997102447449/uploads/Arenas/VAINILLA_SIN_SOPORTE-7924262.webp?format=webp";
-const rosaImg =
-  "https://content.app-sources.com/s/03478997102447449/uploads/Arenas/ROSA_SIN_SOPORTE-7924262.webp?format=webp";
+const vainilla45Img = "https://i.imgur.com/xLIxqSl.png";
+const rosa45Img = "https://i.imgur.com/4JYSBOp.png";
+const manzana45Img = "https://i.imgur.com/2ZUfi91.png";
+const cafe45Img = "https://i.imgur.com/5GrD04e.png";
+const lavanda45Img = "https://i.imgur.com/rhG2pwl.png";
+const talcoBebe45Img = "https://i.imgur.com/sbokIf0.png";
+const carbon45Img = "https://i.imgur.com/sOLg6k7.png";
 
-const manzanaImg =
-  "https://content.app-sources.com/s/03478997102447449/uploads/Arenas/MANZANA_SIN_SOPORTE-7924262.webp?format=webp";
+const vainilla10Img = "https://i.imgur.com/GTGBfum.png";
+const rosa10Img = "https://i.imgur.com/v6DJPOj.png";
+const manzana10Img = "https://i.imgur.com/GjKs4vv.png";
+const cafe10Img = "https://i.imgur.com/vxm47lk.png";
+const lavanda10Img = "https://i.imgur.com/HhMc3pH.png";
+const talcoBebe10Img = "https://i.imgur.com/piOCcXy.png";
+const carbon10Img = "https://i.imgur.com/gaGUwHq.png";
 
-const cafeImg =
-  "https://content.app-sources.com/s/03478997102447449/uploads/Arenas/CAFE_SIN_SOPORTE-7924262.webp?format=webp";
+const vainilla25Img = "https://i.imgur.com/OTEJJ82.png";
+const rosa25Img = "https://i.imgur.com/mwgvDu3.png";
+const manzana25Img = "https://i.imgur.com/CQGqixn.png";
+const cafe25Img = "https://i.imgur.com/8mBraYq.png";
+const lavanda25Img = "https://i.imgur.com/OLiqFiV.png";
+const talcoBebe25Img = "https://i.imgur.com/rdw2ohu.png";
+const carbon25Img = "https://i.imgur.com/yqWL1U7.png";
 
-const lavandaImg = "https://i.imgur.com/iYCJ6DI.png";
-
-const talcoBebeImg = "https://i.imgur.com/OvA7hV3.png";
-
-export default [
-  { src: vainillaImg, alt: "Vainilla" },
-  { src: rosaImg, alt: "Rosa" },
-  { src: manzanaImg, alt: "Manzana" },
-  { src: cafeImg, alt: "Cafe" },
-  { src: lavandaImg, alt: "Lavanda" },
-  { src: talcoBebeImg, alt: "Talco" },
-];
+export const images: Record<
+  "4.5kg" | "10kg" | "25kg",
+  { id: string; src: string; alt: string }[]
+> = {
+  "4.5kg": [
+    { id: "i1", src: vainilla45Img, alt: "Vainilla" },
+    { id: "i2", src: rosa45Img, alt: "Rosa" },
+    { id: "i3", src: manzana45Img, alt: "Manzana" },
+    { id: "i4", src: cafe45Img, alt: "Cafe" },
+    { id: "i5", src: lavanda45Img, alt: "Lavanda" },
+    { id: "i6", src: talcoBebe45Img, alt: "Talco" },
+    { id: "i7", src: carbon45Img, alt: "Carbon" },
+  ],
+  "10kg": [
+    { id: "i8", src: vainilla10Img, alt: "Vainilla" },
+    { id: "i9", src: rosa10Img, alt: "Vainilla" },
+    { id: "i10", src: manzana10Img, alt: "Manzana" },
+    { id: "i11", src: cafe10Img, alt: "Cafe" },
+    { id: "i12", src: lavanda10Img, alt: "Lavanda" },
+    { id: "i13", src: talcoBebe10Img, alt: "Talco" },
+    { id: "i14", src: carbon10Img, alt: "Carbon" },
+  ],
+  "25kg": [
+    { id: "i15", src: vainilla25Img, alt: "Vainilla" },
+    { id: "i16", src: rosa25Img, alt: "Vainilla" },
+    { id: "i17", src: manzana25Img, alt: "Manzana" },
+    { id: "i18", src: cafe25Img, alt: "Cafe" },
+    { id: "i19", src: lavanda25Img, alt: "Lavanda" },
+    { id: "i20", src: talcoBebe25Img, alt: "Talco" },
+    { id: "i21", src: carbon25Img, alt: "Carbon" },
+  ],
+};

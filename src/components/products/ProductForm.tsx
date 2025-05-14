@@ -1,36 +1,20 @@
 import { createPortal } from "react-dom";
 import { Input } from "../common/Input";
 import classes from "./ProductForm.module.css";
-import {
-  useImperativeHandle,
-  useRef,
-  forwardRef,
-  /* useEffect, */
-  useState,
-} from "react";
+import { useImperativeHandle, useRef, forwardRef, useState } from "react";
 import { Form, useActionData } from "react-router-dom";
 import type { Product } from "../../types/product";
-import images from "../../data/images";
+import { images } from "../../data/images";
 
 const TITLE_OPTIONS = [
   { value: "1", label: "Arena Calabaza" },
   { value: "2", label: "Snack Calabaza" },
-  /* { value: "3", label: "Arena Calabaza" }, */
 ];
 
-/* const AROMA_OPTIONS = [
-  { value: "1", label: "Vainilla" },
-  { value: "2", label: "Rosa" },
-  { value: "3", label: "Manzana" },
-  { value: "4", label: "Café" },
-  { value: "5", label: "Lavanda" },
-  { value: "6", label: "Talco de bebé" },
-];
- */
-const CHECKBOX_OPTIONS = [
-  { value: "1", label: "4.5kg" },
-  { value: "2", label: "10kg" },
-  { value: "3", label: "25kg" },
+const WEIGHT_OPTIONS = [
+  { value: "4.5kg", label: "4.5kg" },
+  { value: "10kg", label: "10kg" },
+  { value: "25kg", label: "25kg" },
 ];
 
 export interface ProductFormRef {
@@ -45,11 +29,23 @@ interface ImageData {
 
 export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
   ({ productToEdit }, ref) => {
-    const [selectedImage, setSelectedImage] = useState<ImageData | null>(null);
+    const [selectedImages, setSelectedImages] = useState<(ImageData | null)[]>([
+      null,
+    ]);
+    const [presentations, setPresentations] = useState<
+      Product.PresentationProps[]
+    >([
+      {
+        weight: "",
+        price: 0,
+        quantity: 0,
+        image: "",
+      },
+    ]);
 
-    const isEditing = !!productToEdit;
     const data = useActionData();
     const dialog = useRef<HTMLDialogElement>(null);
+    const isEditing = !!productToEdit;
 
     const handleBackdropClick = (
       event: React.MouseEvent<HTMLDialogElement>
@@ -78,15 +74,40 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
       },
     }));
 
-    /* useEffect(() => {
-      if (data?.success) {
-        handleClose();
-        location.reload();
-      }
-    }, [data]); */
+    const handleSelectImage = (index: number, image: ImageData) => {
+      setSelectedImages((prev) => {
+        const updated = [...prev];
+        updated[index] = image;
+        return updated;
+      });
+    };
 
-    const handleSelectImage = (image: ImageData): void => {
-      setSelectedImage(image);
+    const addPresentation = () => {
+      setPresentations((prev) => [
+        ...prev,
+        { weight: "", price: 0, quantity: 0, image: "" },
+      ]);
+
+      setSelectedImages((prev) => [...prev, null]);
+    };
+
+    const removePresentation = (index: number): void => {
+      const updatedPresentations = presentations.filter((_, i) => i !== index);
+      const updatedImages = selectedImages.filter((_, i) => i !== index);
+      setPresentations(updatedPresentations);
+      setSelectedImages(updatedImages);
+    };
+
+    const handleChangePresentation = (
+      index: number,
+      field: keyof Product.PresentationProps,
+      value: string | number
+    ) => {
+      setPresentations((prev) =>
+        prev.map((presentation, i) =>
+          i === index ? { ...presentation, [field]: value } : presentation
+        )
+      );
     };
 
     return createPortal(
@@ -132,76 +153,124 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
               defaultValue={productToEdit?.description}
               required
             />
-            {/*             <Input
-              label="Aroma"
-              name="aroma"
-              select
-              options={AROMA_OPTIONS}
-              defaultValue={productToEdit?.aroma}
-              required
-            /> */}
-            <Input
-              label="Precio"
-              name="price"
-              type="number"
-              defaultValue={productToEdit?.price}
-              required
-            />
-            <Input
-              label="Quantity"
-              name="quantity"
-              type="number"
-              defaultValue={productToEdit?.quantity}
-              required
-            />
-            <label>Aroma / Snack</label>
-            <ul className={classes["new-product__images"]}>
-              {images.map((image) => (
-                <li
-                  key={image.src}
-                  onClick={() => handleSelectImage(image)}
-                  className={
-                    selectedImage === image ? classes.selected : undefined
-                  }
-                >
-                  <img {...image} />
-                  <p className={classes["new-product__images--alt"]}>
-                    {image.alt}
+
+            {presentations.map((_, i) => {
+              const selectedWeight = presentations[i].weight;
+              const imagesForWeight =
+                images[selectedWeight as keyof typeof images] || [];
+
+              console.log(selectedImages, imagesForWeight);
+
+              return (
+                <div key={i} className={classes["new-product__presentation"]}>
+                  <Input
+                    name="weight[]"
+                    label="Peso"
+                    select
+                    options={WEIGHT_OPTIONS}
+                    onChange={(e) =>
+                      handleChangePresentation(i, "weight", e.target.value)
+                    }
+                    value={presentations[i].weight}
+                  />
+                  <Input
+                    name="price[]"
+                    label="Precio"
+                    type="number"
+                    defaultValue={productToEdit?.presentations?.[i]?.price ?? 0}
+                    required
+                  />
+                  <Input
+                    name="quantity[]"
+                    label="Cantidad"
+                    type="number"
+                    defaultValue={
+                      productToEdit?.presentations?.[i]?.quantity ?? 0
+                    }
+                    required
+                  />
+
+                  <p className={classes["new-product__aroma-label"]}>
+                    {selectedWeight
+                      ? `Aroma / Snack para ${
+                          WEIGHT_OPTIONS.find(
+                            (opt) => opt.value === selectedWeight
+                          )?.label
+                        }`
+                      : "Selecciona un peso para ver aromas disponibles"}
                   </p>
-                </li>
-              ))}
-            </ul>
-            <input
-              type="hidden"
-              name="aroma"
-              value={selectedImage?.alt ?? ""}
-              defaultValue={productToEdit?.aroma}
-              required
-            />
-            <input
-              type="hidden"
-              name="image"
-              value={selectedImage?.src ?? ""}
-              defaultValue={productToEdit?.image}
-              required
-            />
+
+                  <ul className={classes["new-product__images"]}>
+                    {imagesForWeight.map((image: ImageData) => (
+                      <li
+                        key={image.src}
+                        onClick={() => handleSelectImage(i, image)}
+                        className={
+                          selectedImages[i]?.src === image.src
+                            ? classes.selected
+                            : ""
+                        }
+                      >
+                        <img {...image} />
+                        <p className={classes["new-product__images--alt"]}>
+                          {image.alt}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <input
+                    type="hidden"
+                    name="image[]"
+                    value={
+                      selectedImages[i]?.src ??
+                      productToEdit?.presentations?.[i]?.image ??
+                      ""
+                    }
+                    required
+                  />
+                  <input
+                    type="hidden"
+                    name="aroma[]"
+                    value={selectedImages[i]?.alt ?? ""}
+                    required
+                  />
+                  <input
+                    type="hidden"
+                    name="aroma"
+                    value={selectedImages[i]?.alt ?? ""}
+                    required
+                  />
+
+                  <button type="button" onClick={() => removePresentation(i)}>
+                    Borrar presentación
+                  </button>
+                </div>
+              );
+            })}
+            <button type="button" onClick={() => addPresentation()}>
+              Agregar presentación
+            </button>
             <input
               type="hidden"
               name="_method"
               value={isEditing ? "put" : "post"}
             />
-            <Input
-              label="Available weights"
-              name="weights"
-              checkbox
-              checkboxOptions={CHECKBOX_OPTIONS}
-              defaultValue={productToEdit?.weights}
-            />
             <button type="submit" className={classes["modal__btn"]}>
               Guardar
             </button>
           </Form>
-          {data?.error && <p>{data.error}</p>}
+          {data?.error && (
+            <div className="text-red-500">
+              <p>{data.error.message}</p>
+              {/* {data.error.details.error.errorResponse.errmsg && (
+                <p className="text-xs italic">
+                  El aroma {data.error.details.error.keyValue._id} ya existe en
+                  la base de datos
+                </p>
+              )} */}
+            </div>
+          )}
         </div>
       </dialog>,
       document.getElementById("modal") as HTMLElement

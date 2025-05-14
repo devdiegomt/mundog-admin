@@ -65,20 +65,25 @@ export const ProductsCards = () => {
                 />
               </div>
             </div>
-            <p>{product.description}</p>
-            <p>{product.price}</p>
-            <p>{product.quantity}</p>
-            <p>{product.aroma}</p>
-            <ul>
-              {product.weights.map((weight) => (
-                <li key={weight}>{weight}</li>
-              ))}
-            </ul>
-            <img
-              src={product.image}
-              alt={product.title}
-              className={classes["products-cards__list--image"]}
-            />
+            <p>Descripción: {product.description}</p>
+            <p>Aroma: {product.aroma}</p>
+            {product.presentations.map((presentation) => (
+              <p key={presentation.weight}>
+                Precio: {presentation.price}
+                <br />
+                Cantidad: {presentation.quantity}
+                <br />
+                Peso: {presentation.weight}
+                <br />
+                Imagen:
+                <br />
+                <img
+                  src={presentation.image}
+                  alt={product.title}
+                  className={classes["products-cards__list--image"]}
+                />
+              </p>
+            ))}
           </li>
         ))}
       </ul>

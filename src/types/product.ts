@@ -1,13 +1,17 @@
 export namespace Product {
+  export interface PresentationProps {
+    weight: string;
+    price: number;
+    quantity: number;
+    image: string;
+  }
+
   export interface Props {
     _id: string;
     title: string;
-    price: number;
     description: string;
     aroma: string;
-    quantity: number;
-    image?: string;
-    weights: string[];
+    presentations: PresentationProps[];
   }
 
   export interface ContextType {

@@ -51,6 +51,10 @@
   background-color: #ffcc80;
 }
 
+.new-product__aroma-label {
+  margin: 10px 0;
+}
+
 .new-product__images {
   justify-content: center;
   display: flex;
@@ -66,6 +70,12 @@
   height: 3rem;
   border-radius: 50%;
   border: 2px solid transparent;
+  cursor: pointer;
+}
+
+.new-product__images li:hover {
+  border: 2px solid #0f61ef;
+  border-radius: 50%;
 }
 
 .new-product__images li.selected {
@@ -83,7 +93,20 @@
   object-fit: contain;
 }
 
+.new-product__presentation {
+  display: flex;
+  flex-direction: column;
+}
+
+.new-product__presentation button {
+  color: red;
+}
+
 input[id="quantity"] {
+  margin-bottom: 15px;
+}
+
+textarea[id="description"] {
   margin-bottom: 15px;
 }
 
