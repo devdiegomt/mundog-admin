@@ -22,8 +22,13 @@ const lavanda25Img = "https://i.imgur.com/OLiqFiV.png";
 const talcoBebe25Img = "https://i.imgur.com/rdw2ohu.png";
 const carbon25Img = "https://i.imgur.com/yqWL1U7.png";
 
+const salmonImg = "https://i.imgur.com/LamR2te.png";
+const polloImg = "https://i.imgur.com/9qT7SHA.png";
+const polloatunImg = "https://i.imgur.com/Z8mZESL.jpeg";
+const terneraImg = "https://i.imgur.com/KzhVllF.jpeg";
+
 export const images: Record<
-  "4.5kg" | "10kg" | "25kg",
+  "4.5kg" | "10kg" | "25kg" | "15g" | "75g",
   { id: string; src: string; alt: string }[]
 > = {
   "4.5kg": [
@@ -52,5 +57,17 @@ export const images: Record<
     { id: "i19", src: lavanda25Img, alt: "Lavanda" },
     { id: "i20", src: talcoBebe25Img, alt: "Talco" },
     { id: "i21", src: carbon25Img, alt: "Carbon" },
+  ],
+  "15g": [
+    { id: "i22", src: salmonImg, alt: "Salmón" },
+    { id: "i23", src: terneraImg, alt: "Ternera" },
+    { id: "i24", src: polloImg, alt: "Pollo" },
+    { id: "i25", src: polloatunImg, alt: "Pollo y atún" },
+  ],
+  "75g": [
+    { id: "i26", src: salmonImg, alt: "Salmón" },
+    { id: "i27", src: terneraImg, alt: "Ternera" },
+    { id: "i28", src: polloImg, alt: "Pollo" },
+    { id: "i29", src: polloatunImg, alt: "Pollo y atún" },
   ],
 };

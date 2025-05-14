@@ -15,6 +15,8 @@ const WEIGHT_OPTIONS = [
   { value: "4.5kg", label: "4.5kg" },
   { value: "10kg", label: "10kg" },
   { value: "25kg", label: "25kg" },
+  { value: "15g", label: "15g" },
+  { value: "75g", label: "75g" },
 ];
 
 export interface ProductFormRef {
