@@ -14,7 +14,7 @@ const lavanda10Img = "https://i.imgur.com/HhMc3pH.png";
 const talcoBebe10Img = "https://i.imgur.com/piOCcXy.png";
 const carbon10Img = "https://i.imgur.com/gaGUwHq.png";
 
-const vainilla25Img = "https://i.imgur.com/OTEJJ82.png";
+const vainilla25Img = "https://i.imgur.com/vVnCISh.png";
 const rosa25Img = "https://i.imgur.com/mwgvDu3.png";
 const manzana25Img = "https://i.imgur.com/CQGqixn.png";
 const cafe25Img = "https://i.imgur.com/8mBraYq.png";
