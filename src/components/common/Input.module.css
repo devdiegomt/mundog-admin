@@ -1,28 +1,32 @@
 .label {
-  margin: 10px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tinta-suave);
+  margin: 8px 0 4px;
 }
 
+.input,
+.textarea,
 .select {
-  padding: 10px 5px;
-}
-
-.input {
-  padding: 10px 5px;
-}
-
-input[type="checkbox"] {
-  margin-right: 10px;
+  border: 1.5px solid var(--borde);
+  border-radius: 8px;
+  padding: 9px 11px;
+  font-size: 15px;
+  font-family: inherit;
+  background: var(--superficie);
+  color: var(--tinta);
+  width: 100%;
 }
 
 .textarea {
-  min-width: 98.5%;
-  max-width: 98.5%;
-  min-height: 50px;
+  min-height: 70px;
+  resize: vertical;
 }
 
-@media (max-width: 768px) {
-  .textarea {
-    min-width: 98%;
-    max-width: 98%;
-  }
+.input:focus-visible,
+.textarea:focus-visible,
+.select:focus-visible {
+  outline: 2px solid var(--hoja);
+  outline-offset: 1px;
+  border-color: var(--hoja);
 }

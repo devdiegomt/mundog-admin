@@ -1,27 +1,48 @@
 .header {
-  background-color: #d9d9d9;
-  padding: 15px;
+  background: var(--bosque);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
-.header__navigation {
+.nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 8px 20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  height: 27px;
+  justify-content: space-between;
 }
 
-.header__navigation--logo {
-    height: 100%;
-}
-
-.header__navigation--list {
+.brand {
   display: flex;
-  padding: 0;
-  list-style-type: none;
-  gap: 4px;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
 }
 
-.header__navigation--list li a {
-  color: #000;
-  text-decoration: none;
+.logo {
+  height: 44px;
+  object-fit: contain;
+}
+
+.title {
+  font-family: "Gochi Hand", cursive;
+  font-size: 22px;
+  color: var(--arena);
+}
+
+.logout {
+  background: transparent;
+  border: 1.5px solid rgba(255, 230, 178, 0.6);
+  color: var(--arena);
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.logout:hover {
+  background: rgba(255, 230, 178, 0.15);
 }

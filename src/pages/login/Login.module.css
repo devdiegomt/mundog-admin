@@ -1,0 +1,80 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.card {
+  background: var(--superficie);
+  border-radius: 16px;
+  box-shadow: 0 8px 30px rgba(27, 64, 1, 0.12);
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  height: 72px;
+  object-fit: contain;
+  margin: 0 auto 12px;
+}
+
+.title {
+  font-size: 18px;
+  text-align: center;
+  color: var(--bosque);
+  margin-bottom: 24px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tinta-suave);
+  margin-bottom: 6px;
+}
+
+.input {
+  border: 1.5px solid var(--borde);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--hoja);
+  outline-offset: 1px;
+  border-color: var(--hoja);
+}
+
+.error {
+  color: var(--rojo);
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+.button {
+  margin-top: 20px;
+  padding: 11px;
+  border: none;
+  border-radius: 8px;
+  background: var(--hoja);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--bosque);
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

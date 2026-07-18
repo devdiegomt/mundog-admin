@@ -1,14 +1,20 @@
 import { createPortal } from "react-dom";
 import { Input } from "../common/Input";
 import classes from "./ProductForm.module.css";
-import { useImperativeHandle, useRef, forwardRef, useState } from "react";
-import { Form, useActionData } from "react-router-dom";
+import {
+  useImperativeHandle,
+  useRef,
+  forwardRef,
+  useState,
+  useEffect,
+} from "react";
+import { Form, useActionData, useNavigate, useNavigation } from "react-router-dom";
 import type { Product } from "../../types/product";
 import { images } from "../../data/images";
 
 const TITLE_OPTIONS = [
-  { value: "1", label: "Arena Calabaza" },
-  { value: "2", label: "Snack Calabaza" },
+  { value: "Arena Calabaza", label: "Arena Calabaza" },
+  { value: "Snack Calabaza", label: "Snack Calabaza" },
 ];
 
 const WEIGHT_OPTIONS = [
@@ -18,6 +24,13 @@ const WEIGHT_OPTIONS = [
   { value: "15g", label: "15g" },
   { value: "75g", label: "75g" },
 ];
+
+const EMPTY_PRESENTATION: Product.PresentationProps = {
+  weight: "",
+  price: 0,
+  quantity: 0,
+  image: "",
+};
 
 export interface ProductFormRef {
   open: () => void;
@@ -36,18 +49,41 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
     ]);
     const [presentations, setPresentations] = useState<
       Product.PresentationProps[]
-    >([
-      {
-        weight: "",
-        price: 0,
-        quantity: 0,
-        image: "",
-      },
-    ]);
+    >([EMPTY_PRESENTATION]);
 
     const data = useActionData();
+    const navigation = useNavigation();
+    const navigate = useNavigate();
     const dialog = useRef<HTMLDialogElement>(null);
     const isEditing = !!productToEdit;
+    const isSaving = navigation.state === "submitting";
+
+    // Al abrir en modo edición, carga las presentaciones existentes.
+    useEffect(() => {
+      if (productToEdit) {
+        setPresentations(productToEdit.presentations);
+        setSelectedImages(
+          productToEdit.presentations.map((presentation) => ({
+            src: presentation.image,
+            alt: productToEdit.aroma,
+          }))
+        );
+      } else {
+        setPresentations([EMPTY_PRESENTATION]);
+        setSelectedImages([null]);
+      }
+    }, [productToEdit]);
+
+    // Cierra el modal al guardar con éxito; si la sesión expiró, va al login.
+    useEffect(() => {
+      if (navigation.state !== "idle") return;
+      if (data?.success) {
+        handleClose();
+      } else if (data?.error?.sessionExpired) {
+        handleClose();
+        navigate("/login", { replace: true });
+      }
+    }, [data, navigation.state, navigate]);
 
     const handleBackdropClick = (
       event: React.MouseEvent<HTMLDialogElement>
@@ -85,19 +121,13 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
     };
 
     const addPresentation = () => {
-      setPresentations((prev) => [
-        ...prev,
-        { weight: "", price: 0, quantity: 0, image: "" },
-      ]);
-
+      setPresentations((prev) => [...prev, EMPTY_PRESENTATION]);
       setSelectedImages((prev) => [...prev, null]);
     };
 
     const removePresentation = (index: number): void => {
-      const updatedPresentations = presentations.filter((_, i) => i !== index);
-      const updatedImages = selectedImages.filter((_, i) => i !== index);
-      setPresentations(updatedPresentations);
-      setSelectedImages(updatedImages);
+      setPresentations((prev) => prev.filter((_, i) => i !== index));
+      setSelectedImages((prev) => prev.filter((_, i) => i !== index));
     };
 
     const handleChangePresentation = (
@@ -145,7 +175,13 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
               name="title"
               select
               options={TITLE_OPTIONS}
-              defaultValue={productToEdit?.title}
+              defaultValue={
+                isEditing
+                  ? TITLE_OPTIONS.find((opt) =>
+                      productToEdit?.title.startsWith(opt.value)
+                    )?.value
+                  : undefined
+              }
               required
             />
             <Input
@@ -156,12 +192,10 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
               required
             />
 
-            {presentations.map((_, i) => {
-              const selectedWeight = presentations[i].weight;
+            {presentations.map((presentation, i) => {
+              const selectedWeight = presentation.weight;
               const imagesForWeight =
                 images[selectedWeight as keyof typeof images] || [];
-
-              console.log(selectedImages, imagesForWeight);
 
               return (
                 <div key={i} className={classes["new-product__presentation"]}>
@@ -173,21 +207,33 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
                     onChange={(e) =>
                       handleChangePresentation(i, "weight", e.target.value)
                     }
-                    value={presentations[i].weight}
+                    value={presentation.weight}
                   />
                   <Input
                     name="price[]"
                     label="Precio"
                     type="number"
-                    defaultValue={productToEdit?.presentations?.[i]?.price ?? 0}
+                    value={presentation.price}
+                    onChange={(e) =>
+                      handleChangePresentation(
+                        i,
+                        "price",
+                        Number(e.target.value)
+                      )
+                    }
                     required
                   />
                   <Input
                     name="quantity[]"
                     label="Cantidad"
                     type="number"
-                    defaultValue={
-                      productToEdit?.presentations?.[i]?.quantity ?? 0
+                    value={presentation.quantity}
+                    onChange={(e) =>
+                      handleChangePresentation(
+                        i,
+                        "quantity",
+                        Number(e.target.value)
+                      )
                     }
                     required
                   />
@@ -224,24 +270,14 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
                   <input
                     type="hidden"
                     name="image[]"
-                    value={
-                      selectedImages[i]?.src ??
-                      productToEdit?.presentations?.[i]?.image ??
-                      ""
-                    }
-                    required
-                  />
-                  <input
-                    type="hidden"
-                    name="aroma[]"
-                    value={selectedImages[i]?.alt ?? ""}
-                    required
+                    value={selectedImages[i]?.src ?? presentation.image ?? ""}
                   />
                   <input
                     type="hidden"
                     name="aroma"
-                    value={selectedImages[i]?.alt ?? ""}
-                    required
+                    value={
+                      selectedImages[i]?.alt ?? productToEdit?.aroma ?? ""
+                    }
                   />
 
                   <button type="button" onClick={() => removePresentation(i)}>
@@ -250,7 +286,11 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
                 </div>
               );
             })}
-            <button type="button" onClick={() => addPresentation()}>
+            <button
+              type="button"
+              className={classes["add-presentation"]}
+              onClick={() => addPresentation()}
+            >
               Agregar presentación
             </button>
             <input
@@ -258,19 +298,17 @@ export const ProductForm = forwardRef<ProductFormRef, Product.ProductState>(
               name="_method"
               value={isEditing ? "put" : "post"}
             />
-            <button type="submit" className={classes["modal__btn"]}>
-              Guardar
+            <button
+              type="submit"
+              className={classes["modal__btn"]}
+              disabled={isSaving}
+            >
+              {isSaving ? "Guardando…" : "Guardar"}
             </button>
           </Form>
-          {data?.error && (
-            <div className="text-red-500">
+          {data?.error && !data.success && (
+            <div className={classes["modal__error"]}>
               <p>{data.error.message}</p>
-              {/* {data.error.details.error.errorResponse.errmsg && (
-                <p className="text-xs italic">
-                  El aroma {data.error.details.error.keyValue._id} ya existe en
-                  la base de datos
-                </p>
-              )} */}
             </div>
           )}
         </div>

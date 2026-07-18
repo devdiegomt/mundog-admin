@@ -1,4 +1,5 @@
 import type { ActionFunctionArgs } from "react-router-dom";
+import { createProduct, updateProduct } from "../api/products";
 
 export const productFormAction = async ({
   request,
@@ -18,6 +19,27 @@ export const productFormAction = async ({
     image: images[i],
   }));
 
+  // Validación: los inputs hidden no validan en HTML, así que validamos acá.
+  if (presentations.length === 0) {
+    return {
+      success: false,
+      error: { message: "Agrega al menos una presentación." },
+    };
+  }
+
+  const incomplete = presentations.some(
+    (p) => !p.weight || !p.image || p.price <= 0
+  );
+  if (incomplete) {
+    return {
+      success: false,
+      error: {
+        message:
+          "Cada presentación necesita peso, precio mayor a 0 e imagen (aroma) seleccionada.",
+      },
+    };
+  }
+
   const product = {
     title: `${formData.get("title")} ${formData.get("aroma")}`,
     description: formData.get("description"),
@@ -25,58 +47,36 @@ export const productFormAction = async ({
     presentations,
   };
 
-  const postProduct = {
-    _id: formData.get("aroma"),
-    ...product,
-  };
-
   try {
-    let response;
+    const response =
+      method === "put" && params.id
+        ? await updateProduct(params.id, product)
+        : await createProduct(product);
 
-    if (method === "post") {
-      response = await fetch(
-        "https://mundo-gatuno-backend.onrender.com/api/products",
-        {
-          method: "POST",
-          body: JSON.stringify(postProduct),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-    }
-
-    if (method === "put") {
-      response = await fetch(
-        `https://mundo-gatuno-backend.onrender.com/api/products/${params.id}`,
-        {
-          method: "PUT",
-          body: JSON.stringify(product),
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-    }
-
-    if (!response) {
-      throw new Error("No hay respuestas del servidor");
-    }
-
-    const data = await response.json();
+    const data = await response.json().catch(() => null);
 
     if (!response.ok) {
       return {
         success: false,
         error: {
-          message: "Error al crear el producto",
+          message:
+            response.status === 401 || response.status === 403
+              ? "Tu sesión expiró. Vuelve a iniciar sesión."
+              : "Error al guardar el producto.",
           details: data,
+          sessionExpired: response.status === 401 || response.status === 403,
         },
       };
     }
 
+    // Al retornar desde un action, React Router revalida el loader:
+    // la lista se actualiza sola, sin recargar la página.
     return { data, success: true };
   } catch (error) {
     return {
       success: false,
       error: {
-        message: "Error inesperado al crear el producto",
+        message: "Error inesperado al guardar el producto.",
         details:
           error instanceof Error
             ? { message: error.message }

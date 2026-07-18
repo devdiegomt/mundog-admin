@@ -1,123 +1,162 @@
 .modal {
   padding: 0;
   border: none;
-  border-radius: 8px;
-  background: white;
-  color: black;
-  max-width: 500px;
-  width: 100%;
+  border-radius: 16px;
+  background: var(--superficie);
+  color: var(--tinta);
+  max-width: 520px;
+  width: calc(100% - 32px);
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  max-height: 88vh;
+  overflow-y: auto;
 }
 
 ::backdrop {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(27, 64, 1, 0.45);
 }
 
 .modal__content {
   display: flex;
   flex-direction: column;
-  padding: 3rem 3rem 2rem;
+  padding: 28px;
 }
 
 .modal__header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
-  font-family: "Gochi Hand";
+}
+
+.modal__header h1 {
+  font-family: "Gochi Hand", cursive;
+  font-size: 24px;
+  color: var(--bosque);
 }
 
 .x-icon {
   cursor: pointer;
+  fill: var(--tinta-suave);
+}
+
+.x-icon:hover {
+  fill: var(--tinta);
 }
 
 .modal__form {
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 .modal__btn {
   margin-top: 20px;
-  padding: 10px 0;
+  padding: 12px 0;
   border: none;
-  background-color: #ffe6b2;
+  background: var(--hoja);
+  color: white;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
 .modal__btn:hover {
-  background-color: #ffcc80;
+  background: var(--bosque);
 }
 
-.new-product__aroma-label {
-  margin: 10px 0;
-}
-
-.new-product__images {
-  justify-content: center;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  list-style: none;
-  padding: 0;
-  margin-bottom: 30px;
-}
-
-.new-product__images li {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  border: 2px solid transparent;
-  cursor: pointer;
-}
-
-.new-product__images li:hover {
-  border: 2px solid #0f61ef;
-  border-radius: 50%;
-}
-
-.new-product__images li.selected {
-  border: 2px solid #0f61ef;
-}
-
-.new-product__images--alt {
-  font-size: 10px;
-  text-align: center;
-}
-
-.new-product__images li img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  border-radius: 50%;
+.modal__btn:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 
 .new-product__presentation {
   display: flex;
   flex-direction: column;
+  border: 1px solid var(--borde);
+  border-radius: 10px;
+  padding: 14px;
+  margin: 10px 0;
+  background: var(--crema);
 }
 
-.new-product__presentation button {
-  color: red;
+.new-product__presentation > button {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  color: var(--rojo);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 4px 0 0;
 }
 
-input[id="quantity"] {
-  margin-bottom: 15px;
+.add-presentation {
+  align-self: flex-start;
+  background: none;
+  border: 1.5px dashed var(--hoja);
+  color: var(--hoja);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
 }
 
-textarea[id="description"] {
-  margin-bottom: 15px;
+.add-presentation:hover {
+  background: rgba(70, 115, 2, 0.08);
 }
 
-@media (max-width: 600px) {
-  .modal {
-    width: calc(100% - 6rem);
-    padding: 1.5rem;
-  }
+.new-product__aroma-label {
+  margin: 10px 0 6px;
+  font-size: 13px;
+  color: var(--tinta-suave);
+}
 
-  .modal__content {
-    padding: 1.5rem;
-  }
+.new-product__images {
+  justify-content: flex-start;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  list-style: none;
+  padding: 0;
+  margin-bottom: 8px;
+}
+
+.new-product__images li {
+  width: 3rem;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 3px;
+}
+
+.new-product__images li:hover {
+  border-color: var(--hoja);
+}
+
+.new-product__images li.selected {
+  border-color: var(--hoja);
+  background: rgba(70, 115, 2, 0.1);
+}
+
+.new-product__images--alt {
+  font-size: 10px;
+  text-align: center;
+  color: var(--tinta-suave);
+}
+
+.new-product__images li img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.modal__error {
+  color: var(--rojo);
+  font-size: 14px;
+  margin-top: 10px;
 }

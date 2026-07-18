@@ -1,7 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&family=Gochi+Hand&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@400;500;600;700&family=Gochi+Hand&display=swap");
+
+:root {
+  --crema: #fdf9f0;
+  --superficie: #ffffff;
+  --arena: #ffe6b2;
+  --hoja: #467302;
+  --bosque: #1b4001;
+  --tinta: #2c2418;
+  --tinta-suave: #6b6152;
+  --borde: #e4dcc9;
+  --rojo: #a60303;
+}
 
 * {
   margin: 0;
+  box-sizing: border-box;
 }
 
 .no-scroll {
@@ -10,5 +23,24 @@
 
 body {
   margin: 0;
-  background: #ffe6b2 url("./assets//bgfootprints.png");
+  background: var(--crema);
+  color: var(--tinta);
+  font-family: "Dosis", system-ui, sans-serif;
+  font-size: 16px;
+}
+
+button {
+  font-family: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--hoja);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }
